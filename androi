@@ -1,0 +1,176 @@
+public class KhachHang {
+    private String tenKh;
+
+    private int slmua;
+
+    private boolean isVip;
+
+    public static final int GIA=20000;
+
+    public KhachHang()
+
+    {
+
+    }
+
+    public KhachHang(String tenKh,int slmua,boolean isVip)
+
+    {
+
+        this.tenKh=tenKh;
+
+        this.slmua=slmua;
+
+        this.isVip=isVip;
+
+    }
+
+    public String getTenKh() {
+
+        return tenKh;
+
+    }
+
+    public void setTenKh(String tenKh) {
+
+        this.tenKh = tenKh;
+
+    }
+
+    public int getSlmua() {
+
+        return slmua;
+
+    }
+
+    public void setSlmua(int slmua) {
+
+        this.slmua = slmua;
+
+    }
+
+    public boolean isVip() {
+
+        return isVip;
+
+    }
+
+    public void setVip(boolean isVip) {
+
+        this.isVip = isVip;
+
+    }
+
+    public double tinhThanhTien()
+
+    {
+
+        return (!isVip?slmua*GIA:slmua*GIA*0.9);
+
+    }
+
+    @Override
+    public String toString() {
+        return "KhachHang{" +
+                "tenKh='" + tenKh + '\'' +
+                ", slmua=" + slmua +
+                ", isVip=" + isVip +
+                '}';
+    }
+}
+
+
+
+
+package com.example.administrator.myapplication;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button btnTT,btnTiep;
+
+    ImageButton btnThoat;
+
+    ListView lvdanhsach;
+    EditText editTen,editSl,editTongKh,editTongKhVip,ediTongTT;
+    TextView txtTT;
+    CheckBox chkVip;
+    ArrayList<KhachHang> listkh=new ArrayList<KhachHang>(); //them
+    ArrayAdapter<KhachHang> adapter=null; //them
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        getControls();
+        adapter=new ArrayAdapter<KhachHang>
+                (this,android.R.layout.simple_list_item_1,listkh);//them
+        lvdanhsach.setAdapter(adapter); //them
+        btnTT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doTinhTien();
+            }
+        });
+    }
+    private void doTinhTien()
+    {
+        KhachHang kh=new KhachHang();
+        kh.setTenKh(editTen.getText() + "");
+                kh.setSlmua(Integer.parseInt(editSl.getText() + ""));
+                        kh.setVip(chkVip.isChecked());
+        txtTT.setText(kh.tinhThanhTien() + "");
+        listkh.add(kh); //them
+        adapter.notifyDataSetChanged(); //them
+
+
+
+    }
+    private void doTiep()
+
+    {
+
+        editTen.setText("");
+
+        editSl.setText("");
+
+        txtTT.setText("");
+
+        editTen.requestFocus();
+
+    }
+    private void getControls()
+
+    {
+
+        btnTT=(Button) findViewById(R.id.btntinhtien);
+
+        btnTiep=(Button) findViewById(R.id.btntieptuc);
+
+
+
+
+        editTen=(EditText) findViewById(R.id.txttenkh);
+
+        editSl=(EditText) findViewById(R.id.txtsoluongsach);
+
+        lvdanhsach= (ListView) findViewById(R.id.listView);
+
+        txtTT=(TextView) findViewById(R.id.txtthanhtien);
+
+        chkVip =(CheckBox) findViewById(R.id.chpVip);
+
+    }
+
+}
